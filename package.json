@@ -2,7 +2,7 @@
   "name": "bal-coding-tracker",
   "displayName": "BlackAlphaLabs-coding-tracker",
   "description": "Track Coding time and Projects",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "publisher": "blackalphalabs",
   "engines": {
     "vscode": "^1.138.0"
