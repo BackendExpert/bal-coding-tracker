@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import * as fs from 'fs'
 import * as path from 'path'
 import { randomUUID } from 'crypto'
+import * as http from 'http'
 
 interface CodingSession {
 	id: string,
@@ -21,6 +22,7 @@ interface codeingData {
 let session: CodingSession | null = null;
 let timer: NodeJS.Timeout | null = null;
 let extensionContext: vscode.ExtensionContext | null = null;
+let localServer: http.Server | null = null
 
 const IDLE_TIMEOUT_SECONDS = 60;
 
@@ -46,6 +48,8 @@ export function activate(
 
 	initializeDataFile(dataFile);
 	updateStatusBar(statusBar);
+
+	startLocalServer(dataFile)
 
 	context.subscriptions.push(
 		vscode.window.onDidChangeActiveTextEditor(() => {
@@ -289,4 +293,51 @@ function formatDuration(seconds: number): string {
 		minutes.toString().padStart(2, "0"),
 		remainingSeconds.toString().padStart(2, "0")
 	].join(":");
+}
+
+function startLocalServer(dataFile: string) {
+	localServer = http.createServer((req, res) => {
+		res.setHeader(
+			"Access-Control-Allow-Origin",
+			"https://YOUR-DASHBOARD-DOMAIN.com"
+		)
+
+		res.setHeader(
+			"Access-Control-Allow-Methods",
+			"GET, OPTIONS"
+		)
+
+		res.setHeader(
+			"Access-Control-Allow-Headers",
+			"Content-Type"
+		)
+
+		if (req.method === "OPTIONS") {
+			res.writeHead(204)
+			res.end()
+			return
+		}
+
+		if (req.method === "GET" && req.url === "/api/coding-data") {
+			const data = loadData(dataFile)
+
+			res.setHeader(
+				"Content-Type",
+				"application/json"
+			)
+
+			res.writeHead(200)
+			res.end(JSON.stringify(data))
+			return
+		}
+		res.writeHead(404, { "Content-Type": "application/json" })
+
+		res.end(
+			JSON.stringify({ error: "Not Found" })
+		)
+	})
+
+	localServer.listen(37421, "127.0.0.1", () => {
+		console.log("BAL Coding Tracker local server running on http://127.0.0.1:37421")
+	})
 }
