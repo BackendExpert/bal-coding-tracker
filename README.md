@@ -166,4 +166,5 @@ $(clock) Coding: 00:12:35
 - See the repository license for the applicable terms.
 
 
-Developed by (BlackAlphaLabs)[https://www.blackalphalabs.com/].
+Developed by [BlackAlphaLabs](https://www.blackalphalabs.com).
+[Jehan Weerasuriya](https://www.linkedin.com/in/jehanweerasuriya)
