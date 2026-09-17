@@ -7,6 +7,7 @@
   "engines": {
     "vscode": "^1.138.0"
   },
+  "icon": "icon.png",
   "categories": [
     "Other"
   ],
@@ -54,5 +55,13 @@
   },
   "dependencies": {
     "crypto": "^1.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BackendExpert/bal-coding-tracker"
+  },
+  "bugs": {
+    "url": "https://github.com/BackendExpert/bal-coding-tracker/issues"
+  },
+  "homepage": "https://github.com/BackendExpert/bal-coding-tracker"
 }
